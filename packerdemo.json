@@ -1,0 +1,30 @@
+
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-west-2",
+    "source_ami": "ami-9abea4fb",
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "packer-example {{timestamp}}"
+  }],
+"provisioners": [{
+    "type": "shell",
+    "inline": [
+      "sleep 30",
+      "sudo apt-get update -y",
+      "sudo apt-get install -y unzip",
+      "echo Fetching Redis...",
+	"sudo curl -fsSL https://get.docker.com/ | sh",
+	"curl -fsSL https://get.docker.com/gpg | sudo apt-key add -",
+      "echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDqTyRdssuUzBPhI3t7q3QREm6PjqpkeuDEf4TK9ZjZaYbEh9lZBIttRhjhHuvV1PjjT/T3bsRlhYlSbYRTF258vKY4O7WSWFfFDejNk61dNF6bS7D62JxIct3UujLbTD8NOcDM1JgAMAqN+ZMmdncp8z1QF7c66J33zslusp66HBIPOkVWG1dqE/UiS2/JEajfjUDUWcumTXOjmEOqlT9PLGw/m3vAEMQ76KdAgRijJp2kWig0pGxxA1vldf3BHl5GttBAXyaS4l4aUsvl/Oo2oXvGNLpVwQWAaBZYTaYZKIxlWzY9MRrKcClZ8K+3f6O3kf/Ufpo+QaVP+hIjniy9 lmarks@gmail.com > /home/ubuntu/.ssh/authorized_keys"
+    ]
+  }]
+}
